@@ -42,17 +42,23 @@ workspace-example 的 skill（`epic-prd-tech-design-workflow` 全家桶、`gener
 
 ## 安装
 
-方式 A（本仓库开发位，推荐）：复制或链接本目录到 profile 的 plugins 工作区，并加入 bundles：
+方式 A（本地独立项目开发）：将项目目录加入 DSH profile 的 plugins 工作区，并加入 bundle：
 
 ```bash
-cp -R packages/dsh-prd-workflow ~/.dsh/profiles/web/plugins/dsh-prd-workflow
+cp -R . ~/.dsh/profiles/web/plugins/dsh-prd-workflow
 # ~/.dsh/profiles/web/package.json:
 #   dependencies 增加 "dsh-prd-workflow": "workspace:*"
 #   dsh.profile.bundles 数组增加 "dsh-prd-workflow"
 cd ~/.dsh/profiles/web && pnpm install
 ```
 
-方式 B（发布后）：`dsh plugin --profile web add <source>`。
+方式 B（直接从本地目录加载）：按当前 DSH 版本支持的插件安装命令，把本目录作为 `<source>`：
+
+```bash
+dsh plugin --profile web add <source>
+```
+
+方式 C（发布后）：发布到 npm 或 Git 仓库后，使用对应的包名或仓库地址安装。安装插件时，`cordis.patch.yml` 会挂载安装器；启动后 preset 会同步到 `$DSH_HOME/.agent-presets/prd-workflow/`。无需把 preset 手工复制到该目录。
 
 安装器在启动时把 `preset/` 同步到 `$DSH_HOME/.agent-presets/prd-workflow/`，通过目录内 `.preset-manifest.json` 记录每个文件的安装哈希：
 
