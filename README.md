@@ -58,7 +58,25 @@ cd ~/.dsh/profiles/web && pnpm install
 dsh plugin --profile web add <source>
 ```
 
-方式 C（发布后）：发布到 npm 或 Git 仓库后，使用对应的包名或仓库地址安装。安装插件时，`cordis.patch.yml` 会挂载安装器；启动后 preset 会同步到 `$DSH_HOME/.agent-presets/prd-workflow/`。无需把 preset 手工复制到该目录。
+方式 C（npm 发布包，推荐）：从 npm 安装已发布的 `dsh-prd-workflow`：
+
+```bash
+dsh plugin --profile web add dsh-prd-workflow
+```
+
+也可以指定版本：
+
+```bash
+dsh plugin --profile web add dsh-prd-workflow@0.1.1
+```
+
+方式 D（Git 仓库）：从 GitHub 仓库安装：
+
+```bash
+dsh plugin --profile web add git@github.com:pc-dong/dsh-prd-wokflow.git
+```
+
+无论通过 npm 还是 Git 仓库安装，`cordis.patch.yml` 都会挂载安装器；启动后 preset 会同步到 `$DSH_HOME/.agent-presets/prd-workflow/`。无需手工复制 preset 目录。
 
 安装器在启动时把 `preset/` 同步到 `$DSH_HOME/.agent-presets/prd-workflow/`，通过目录内 `.preset-manifest.json` 记录每个文件的安装哈希：
 
@@ -71,7 +89,15 @@ dsh plugin --profile web add <source>
 
 ## 使用
 
-新会话的预设选择器中选择「PRD 工作流模式」。要在工作区 `.agents/skills` 与 preset 副本之间做本地定制，直接改工作区副本（优先级更高）；要改所有会话的默认值，可在 settings 中设置 `agent-presets.default: prd-workflow`。
+安装插件并重启 DSH 后，在新会话的预设选择器中选择「PRD 工作流模式」。
+
+要升级 npm 安装的插件：
+
+```bash
+dsh plugin --profile web update dsh-prd-workflow
+```
+
+要在工作区 `.agents/skills` 与 preset 副本之间做本地定制，直接改工作区副本（优先级更高）；要改所有会话的默认值，可在 settings 中设置 `agent-presets.default: prd-workflow`。
 
 ## skill 清单
 
